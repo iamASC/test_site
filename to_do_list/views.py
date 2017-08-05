@@ -41,7 +41,14 @@ def category_edit(request):
         return render(request, 'to_do_list/cat_edit.html',{'formset':formset})
 
 def task_edit(request):
-    return ""
+    TaskFormset = modelformset_factory(Task, fields=('text','category','deadline',), can_delete=True)
+    if request.method == 'POST':
+        formset = TaskFormset(request.POST)
+        if formset.is_valid():
+            formset.save()
+            return HttpResponseRedirect('/todolist/edit/task/')
+    formset = TaskFormset()
+    return render(request, 'to_do_list/cat_edit.html',{'formset':formset})
 
 
 
