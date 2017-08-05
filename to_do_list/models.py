@@ -11,7 +11,7 @@ class Category(models.Model):
 
 class Task(models.Model):
     text = models.CharField(max_length=200)
-    deadline = models.DateTimeField()
+    deadline = models.DateField()
     category = models.ForeignKey(Category,on_delete=models.CASCADE)
 
     def __str__(self):

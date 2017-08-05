@@ -6,10 +6,7 @@ from django.http import HttpResponse
 
 def todaytasks(request):
     today = Task.objects.filter(deadline=datetime.date.today())
-    res = ''
-    for task in today:
-        res += task.category.name + ":" + task.text + ":" + str(task.deadline) +"<br>"
-    return HttpResponse(res)
+    return render(request, 'to_do_list/task_list.html',{'title':"Today's Tasks", 'list':today})
 
 
 def weektasks(request):
