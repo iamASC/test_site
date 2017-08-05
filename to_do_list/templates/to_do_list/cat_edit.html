@@ -1,0 +1,11 @@
+{% extends "to_do_list/base.html" %}
+{% block title %}Edit your categories{% endblock %}
+
+{% block main %}
+    <h2>Edit your categories</h2>
+    <form action="/todolist/edit/category/" method="post">
+        {% csrf_token %}
+        {{ formset.as_p}}
+        <input type="submit" value="Добавить" />
+    </form>
+    {% endblock %}

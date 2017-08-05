@@ -2,7 +2,9 @@ from django.db import models
 from django.shortcuts import render
 from to_do_list.models import Category,Task
 import datetime
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
+#from to_do_list.forms import CategoryForm
+from django.forms import modelformset_factory
 # Create your views here.
 
 def index(request):
@@ -26,4 +28,20 @@ def task_list(request, url_arg):
     elif url_arg == 'overtasks':
         list = Task.objects.filter(deadline__lt= datetime.date.today())
     return render(request, 'to_do_list/task_list.html',{'title':title_dict[url_arg], 'list':list})
+
+def category_edit(request):
+    CategoryFormset = modelformset_factory(Category, fields=('name',), can_delete=True)
+    if request.method == 'POST':
+        formset = CategoryFormset(request.POST)
+        if formset.is_valid():
+            formset.save()
+            return HttpResponseRedirect('/todolist/edit/category/')
+    else:
+        formset = CategoryFormset()
+        return render(request, 'to_do_list/cat_edit.html',{'formset':formset})
+
+def task_edit(request):
+    return ""
+
+
 

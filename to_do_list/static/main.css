@@ -13,15 +13,21 @@ body{
     width: 180px;
     padding:10px;
 }
+#left_menu a{
+    text-decoration-line: unset;
+    color: black;
+    font-size: large;
+}
 
 #main{
     margin-left: 190px;
     border-left: 1px #cccccc solid;
     padding: 10px;
+    min-height: 160px;
 }
 
 #footer{
     border-top:1px #cccccc solid;
     padding-left: 10px;
-    padding-top: 10px;
+    margin-top: 25px;
 }
