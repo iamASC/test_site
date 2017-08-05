@@ -1,8 +1,16 @@
+from django.db import models
 from django.shortcuts import render
 from to_do_list.models import Category,Task
 import datetime
 from django.http import HttpResponse
 # Create your views here.
+
+def index(request):
+    cat_list=[]
+    category_list = Task.objects.values('category').annotate(dcount=models.Count('category')).order_by('category').reverse()
+    for cat in category_list:
+        cat_list.append((Category.objects.get(pk=cat['category']), cat['dcount']))
+    return render(request, 'to_do_list/index.html', {'list': cat_list})
 
 title_dict ={
 'todaytasks':"Today's Tasks",

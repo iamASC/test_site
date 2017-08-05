@@ -1,0 +1,20 @@
+{% extends "to_do_list/base.html" %}
+{% block title %}Your tasks{% endblock %}
+
+{% block main %}
+    <h2>Your tasks</h2>
+    {% for cat in list %}
+        {% if forloop.first %}
+            <ul>
+        {% endif %}
+
+         <li>{{cat.0}} : {{cat.1}}</li>
+
+        {% if forloop.last %}
+            </ul>
+        {%endif%}
+
+    {% empty %}
+        <div> Вы не внесли ни одной задачи :(</div>
+    {%endfor%}
+{% endblock %}
