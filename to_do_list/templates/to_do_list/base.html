@@ -1,0 +1,32 @@
+<!doctype html>
+{% load staticfiles %}
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
+        <link type="text/css" href ="{% static 'main.css' %}"rel="stylesheet">
+        <title>{% block title %} {% endblock %} </title>
+    </head>
+    <body>
+    <div id = "header">
+    <h1>TO-DO List</h1>
+    </div>
+
+    <div id ="left_menu">
+        <ul>
+            <li><a href = "/todolist/todaytasks">Today Tasks</a></li>
+            <li><a href = "/todolist/weektasks">Week Tasks</a></li>
+            <li><a href = "/todolist/overtasks">Overdue Tasks</a></li>
+        </ul>
+    </div>
+
+    <div id = "main">
+        {% block main%}
+        {% endblock %}
+    </div>
+
+    <div id = "footer">
+        Учебный сайт
+    </div>
+
+    </body>
+</html>

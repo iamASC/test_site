@@ -1,0 +1,27 @@
+body{
+    margin: 0px;
+    padding:0px;
+}
+
+#header{
+    text-align:center;
+    border-bottom: 1px #cccccc solid;
+}
+
+#left_menu{
+    float:left;
+    width: 180px;
+    padding:10px;
+}
+
+#main{
+    margin-left: 190px;
+    border-left: 1px #cccccc solid;
+    padding: 10px;
+}
+
+#footer{
+    border-top:1px #cccccc solid;
+    padding-left: 10px;
+    padding-top: 10px;
+}
