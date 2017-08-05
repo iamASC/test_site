@@ -9,7 +9,7 @@
         <ul>
     {% endif %}
 
-     <li>{{task.category.name}} : {{task.text}} : {{task.deadline|date:"j.D.Y"}}</li>
+     <li>{{task.category.name}} : {{task.text}} : {{task.deadline|date:"j.d.Y"}}</li>
 
     {% if forloop.last %}
         </ul>
