@@ -10,9 +10,9 @@ from django.forms.widgets import SelectDateWidget
 
 def index(request):
     cat_list=[]
-    category_list = Task.objects.values('category').annotate(dcount=models.Count('category')).order_by('category').reverse()
+    category_list = Task.objects.values('category').annotate(dcount=models.Count('category')).order_by('dcount').reverse()
     for cat in category_list:
-        cat_list.append((Category.objects.get(pk=cat['category']), cat['dcount']))
+        cat_list.append([Category.objects.get(pk=cat['category']), cat['dcount']])
     return render(request, 'to_do_list/index.html', {'list': cat_list})
 
 title_dict ={
