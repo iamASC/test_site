@@ -31,3 +31,22 @@ body{
     padding-left: 10px;
     margin-top: 25px;
 }
+#main form div{
+}
+#main form div span{
+    display: inline-block;
+    width: 100px;
+    margin-left: 8px;
+    margin-bottom: 10px;
+    text-align: center;
+    vertical-align: top;
+}
+#main form div span input{
+    width: 100px;
+}
+#main form div span select{
+    width: 100px;
+}
+#main form div span:nth-last-child(2){
+    display:none;
+}

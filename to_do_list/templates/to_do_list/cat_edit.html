@@ -1,11 +1,24 @@
 {% extends "to_do_list/base.html" %}
-{% block title %}Edit your categories{% endblock %}
+{% block title %}Edit your {{title}}{% endblock %}
 
 {% block main %}
-    <h2>Edit your categories</h2>
-    <form action="/todolist/edit/category/" method="post">
+    <h2>Edit your {{title}}</h2>
+    <form action="/todolist/edit/{{addr}}/" method="post">
+        {% ifequal addr 'task'%}
+        <div><span>Task</span><span>Category</span><span>Deadline</span><span></span><span>Delete?</span></div>
+        {%else%}
+            <div><span>Category</span><span></span><span>Delete?</span></div>
+        {%endifequal%}
+
         {% csrf_token %}
-        {{ formset.as_p}}
-        <input type="submit" value="Добавить" />
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div>
+            {% for field in form %}
+                <span>{{ field }}</span>
+            {% endfor %}
+            </div>
+        {% endfor %}
+        <input type="submit" value="Save" />
     </form>
     {% endblock %}

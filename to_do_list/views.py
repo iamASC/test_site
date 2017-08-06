@@ -5,6 +5,7 @@ import datetime
 from django.http import HttpResponse, HttpResponseRedirect
 #from to_do_list.forms import CategoryForm
 from django.forms import modelformset_factory
+from django.forms.widgets import SelectDateWidget
 # Create your views here.
 
 def index(request):
@@ -38,17 +39,18 @@ def category_edit(request):
             return HttpResponseRedirect('/todolist/edit/category/')
     else:
         formset = CategoryFormset()
-        return render(request, 'to_do_list/cat_edit.html',{'formset':formset})
+        return render(request, 'to_do_list/cat_edit.html',{'formset':formset,'title':'categories','addr':'category'})
 
 def task_edit(request):
-    TaskFormset = modelformset_factory(Task, fields=('text','category','deadline',), can_delete=True)
+    TaskFormset = modelformset_factory(Task, fields=('text','category','deadline',), can_delete=True,
+                                       widgets={'deadline': SelectDateWidget})
     if request.method == 'POST':
         formset = TaskFormset(request.POST)
         if formset.is_valid():
             formset.save()
             return HttpResponseRedirect('/todolist/edit/task/')
     formset = TaskFormset()
-    return render(request, 'to_do_list/cat_edit.html',{'formset':formset})
+    return render(request, 'to_do_list/cat_edit.html',{'formset':formset,'title':'tasks','addr':'task'})
 
 
 
