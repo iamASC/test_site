@@ -5,9 +5,19 @@
     <h2>Edit your {{title}}</h2>
     <form action="/todolist/edit/{{addr}}/" method="post">
         {% ifequal addr 'task'%}
-        <div><span>Task</span><span>Category</span><span>Deadline</span><span></span><span>Delete?</span></div>
+        <div>
+            <span>Task</span>
+            <span>Category</span>
+            <span>Deadline</span>
+            <span>empty)</span>
+            <span>Delete?</span>
+        </div>
         {%else%}
-            <div><span>Category</span><span></span><span>Delete?</span></div>
+            <div>
+                <span>Category</span>
+                <span>empty)</span>
+                <span>Delete?</span>
+            </div>
         {%endifequal%}
 
         {% csrf_token %}
