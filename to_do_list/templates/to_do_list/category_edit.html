@@ -23,6 +23,9 @@
         {% csrf_token %}
         {{ formset.management_form }}
         {% for form in formset %}
+            {% if forloop.last %}
+                <div>Add new</div>
+            {% endif %}
             <div>
             {% for field in form %}
                 <span>{{ field }}</span>
