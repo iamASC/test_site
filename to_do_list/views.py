@@ -6,16 +6,15 @@ from django.http import HttpResponse, HttpResponseRedirect
 #from to_do_list.forms import CategoryForm
 from django.forms import modelformset_factory
 from django.forms.widgets import SelectDateWidget
+from django.views.generic import ListView
 # Create your views here.
 
-def index(request):
-    cat_list = []
-    category_list = Category.objects.all()
-    for cat in category_list:
-        cat_list.append([cat.name, Task.objects.filter(category=cat.pk).count()])
-    cat_list.sort(key = lambda el:el[1])
-    cat_list.reverse()
-    return render(request, 'to_do_list/index.html', {'list': cat_list})
+class CategoryList(ListView):
+    context_object_name = 'category_list'
+    template_name = 'to_do_list/index.html'
+    queryset = Category.objects.annotate(num_task = models.Count('task'))\
+               .order_by('-num_task')
+
 
 title_dict ={
 'todaytasks':"Today's Tasks",

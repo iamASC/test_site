@@ -3,12 +3,12 @@
 
 {% block main %}
     <h2>Your tasks</h2>
-    {% for cat in list %}
+    {% for cat in category_list %}
         {% if forloop.first %}
             <ul>
         {% endif %}
 
-         <li>{{cat.0}} : {{cat.1}}</li>
+         <li>{{cat.name}} : {{cat.num_task}}</li>
 
         {% if forloop.last %}
             </ul>
