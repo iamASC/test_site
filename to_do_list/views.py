@@ -7,6 +7,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.forms import modelformset_factory
 from django.forms.widgets import SelectDateWidget
 from django.views.generic import ListView
+from django.views.generic.edit import FormView
+from django.views.generic.base import TemplateView
 # Create your views here.
 
 class CategoryList(ListView):
@@ -14,6 +16,7 @@ class CategoryList(ListView):
     template_name = 'to_do_list/index.html'
     queryset = Category.objects.annotate(num_task = models.Count('task'))\
                .order_by('-num_task')
+
 
 class TaskList(ListView):
     title_dict = {
@@ -40,17 +43,33 @@ class TaskList(ListView):
         else:
             return None
 
+CategoryFormset = modelformset_factory(Category, fields=('name',)
+                                       ,can_delete=True)
 
-def category_edit(request):
-    CategoryFormset = modelformset_factory(Category, fields=('name',), can_delete=True)
-    if request.method == 'POST':
-        formset = CategoryFormset(request.POST)
-        if formset.is_valid():
-            formset.save()
+
+class CategoryEditor(TemplateView):
+
+    template_name = 'to_do_list/category_edit.html'
+    formset = None
+
+    def get(self, request, *args, **kwargs):
+        self.formset = CategoryFormset()
+        return super(CategoryEditor,self).get(request,*args,**kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(CategoryEditor,self).get_context_data(**kwargs)
+        context['formset'] = self.formset
+        context['title'] = 'categories'
+        context['addr'] = 'category'
+        return context
+
+    def post(self,request,*args,**kwargs):
+        self.formset = CategoryFormset(request.POST)
+        if self.formset.is_valid():
+            self.formset.save()
             return HttpResponseRedirect('/todolist/edit/category/')
-    else:
-        formset = CategoryFormset()
-        return render(request, 'to_do_list/cat_edit.html',{'formset':formset,'title':'categories','addr':'category'})
+        return super(CategoryEditor,self).get(self, request, *args, **kwargs)
+
 
 def task_edit(request):
     TaskFormset = modelformset_factory(Task, fields=('text','category','deadline',), can_delete=True,
@@ -61,7 +80,7 @@ def task_edit(request):
             formset.save()
             return HttpResponseRedirect('/todolist/edit/task/')
     formset = TaskFormset()
-    return render(request, 'to_do_list/cat_edit.html',{'formset':formset,'title':'tasks','addr':'task'})
+    return render(request, 'to_do_list/category_edit.html',{'formset':formset,'title':'tasks','addr':'task'})
 
 
 
