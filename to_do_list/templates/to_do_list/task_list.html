@@ -4,16 +4,9 @@
 {% block main %}
     <h2>{{title}}</h2>
     {% for task in task_list %}
-        {% if forloop.first %}
-            <ul>
-        {% endif %}
-
-         <li>{{task.category.name}} : {{task.text}} : {{task.deadline|date:"j.d.Y"}}</li>
-
-        {% if forloop.last %}
-            </ul>
-        {%endif%}
-
+        <div class = "task">
+         {{task.category.name}} : {{task.text}} : {{task.deadline|date:"j.d.Y"}}
+        </div>
     {% empty %}
         <div> Задач не найдено :(</div>
     {%endfor%}
