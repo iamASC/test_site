@@ -15,21 +15,31 @@ class CategoryList(ListView):
     queryset = Category.objects.annotate(num_task = models.Count('task'))\
                .order_by('-num_task')
 
+class TaskList(ListView):
+    title_dict = {
+        'today': "Today's Tasks",
+        'week': "Week's Tasks",
+        'overdue': "Overdue Tasks",
+    }
+    context_object_name = 'task_list'
+    template_name = 'to_do_list/task_list.html'
 
-title_dict ={
-'todaytasks':"Today's Tasks",
-'weektasks':"Week's Tasks",
-'overtasks': "Overdue Tasks",
-}
+    def get_context_data(self, **kwargs):
+        context = super(TaskList, self).get_context_data(**kwargs)
+        context['title'] = self.title_dict[self.request.GET['period']]
+        return context
 
-def task_list(request, url_arg):
-    if url_arg == 'todaytasks':
-        list = Task.objects.filter(deadline=datetime.date.today())
-    elif url_arg == 'weektasks':
-        list = Task.objects.filter(deadline__range=( datetime.date.today(), datetime.date.today() + datetime.timedelta(days = 7)))
-    elif url_arg == 'overtasks':
-        list = Task.objects.filter(deadline__lt= datetime.date.today())
-    return render(request, 'to_do_list/task_list.html',{'title':title_dict[url_arg], 'list':list})
+    def get_queryset(self):
+        if self.request.GET['period'] == 'today':
+            return Task.objects.filter(deadline=datetime.date.today())
+        elif self.request.GET['period'] == 'week':
+            return Task.objects.filter(
+                deadline__range=(datetime.date.today(), datetime.date.today() + datetime.timedelta(days=7)))
+        elif self.request.GET['period'] == 'overdue':
+            return Task.objects.filter(deadline__lt=datetime.date.today())
+        else:
+            return None
+
 
 def category_edit(request):
     CategoryFormset = modelformset_factory(Category, fields=('name',), can_delete=True)
