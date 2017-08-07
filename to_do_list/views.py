@@ -44,7 +44,7 @@ class TaskList(ListView):
 CategoryFormset = modelformset_factory(Category, fields=('name',),
                                        can_delete=True)
 TaskFormset = modelformset_factory(Task,
-                                   fields=('text', 'category', 'deadline',),
+                                   fields=('text', 'category', 'deadline','is_complete'),
                                    can_delete=True,
                                    widgets={
                                        'deadline':DateInput(attrs={'class':'datepicker'})
