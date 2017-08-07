@@ -43,44 +43,44 @@ class TaskList(ListView):
         else:
             return None
 
-CategoryFormset = modelformset_factory(Category, fields=('name',)
-                                       ,can_delete=True)
+CategoryFormset = modelformset_factory(Category, fields=('name',),can_delete=True)
+TaskFormset = modelformset_factory(Task, fields=('text','category','deadline',), can_delete=True,)
+                                   #widgets={'deadline': SelectDateWidget})
 
 
-class CategoryEditor(TemplateView):
+class Editor(TemplateView):
 
     template_name = 'to_do_list/category_edit.html'
     formset = None
 
     def get(self, request, *args, **kwargs):
-        self.formset = CategoryFormset()
-        return super(CategoryEditor,self).get(request,*args,**kwargs)
+        if args[0] == 'category':
+            self.formset = CategoryFormset()
+        elif args[0] == 'task':
+            self.formset = TaskFormset()
+        return super(Editor,self).get(request,*args,**kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(CategoryEditor,self).get_context_data(**kwargs)
+        context = super(Editor,self).get_context_data(**kwargs)
         context['formset'] = self.formset
-        context['title'] = 'categories'
-        context['addr'] = 'category'
+        if self.args[0] == 'category':
+            context['title'] = 'categories'
+            context['addr'] = 'category'
+        elif self.args[0] == 'task':
+            context['title'] = 'tasks'
+            context['addr'] = 'task'
+
         return context
 
     def post(self,request,*args,**kwargs):
-        self.formset = CategoryFormset(request.POST)
+        if args[0] == 'category':
+            self.formset = CategoryFormset(request.POST)
+        elif args[0] == 'task':
+            self.formset = TaskFormset(request.POST)
         if self.formset.is_valid():
             self.formset.save()
-            return HttpResponseRedirect('/todolist/edit/category/')
-        return super(CategoryEditor,self).get(self, request, *args, **kwargs)
-
-
-def task_edit(request):
-    TaskFormset = modelformset_factory(Task, fields=('text','category','deadline',), can_delete=True,
-                                       widgets={'deadline': SelectDateWidget})
-    if request.method == 'POST':
-        formset = TaskFormset(request.POST)
-        if formset.is_valid():
-            formset.save()
-            return HttpResponseRedirect('/todolist/edit/task/')
-    formset = TaskFormset()
-    return render(request, 'to_do_list/category_edit.html',{'formset':formset,'title':'tasks','addr':'task'})
-
-
-
+            if args[0] == 'category':
+                return HttpResponseRedirect('/todolist/edit/category/')
+            elif args[0] == 'task':
+                return HttpResponseRedirect('/todolist/edit/task/')
+        return super(Editor,self).get(self, request, *args, **kwargs)
