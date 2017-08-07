@@ -1,21 +1,17 @@
-from django.db import models
-from django.shortcuts import render
-from to_do_list.models import Category,Task
 import datetime
-from django.http import HttpResponse, HttpResponseRedirect
-#from to_do_list.forms import CategoryForm
+from django.db import models
+from django.http import HttpResponseRedirect
 from django.forms import modelformset_factory
-from django.forms.widgets import SelectDateWidget
 from django.views.generic import ListView
-from django.views.generic.edit import FormView
 from django.views.generic.base import TemplateView
-# Create your views here.
+from to_do_list.models import Category,Task
+
 
 class CategoryList(ListView):
     context_object_name = 'category_list'
     template_name = 'to_do_list/index.html'
-    queryset = Category.objects.annotate(num_task = models.Count('task'))\
-               .order_by('-num_task')
+    queryset = Category.objects.annotate(num_task = models.Count('task'))
+    queryset = queryset.order_by('-num_task')
 
 
 class TaskList(ListView):
@@ -36,20 +32,23 @@ class TaskList(ListView):
         if self.request.GET['period'] == 'today':
             return Task.objects.filter(deadline=datetime.date.today())
         elif self.request.GET['period'] == 'week':
-            return Task.objects.filter(
-                deadline__range=(datetime.date.today(), datetime.date.today() + datetime.timedelta(days=7)))
+            return Task.objects.filter(deadline__range=(
+                                            datetime.date.today(),
+                                            datetime.date.today() + datetime.timedelta(days=7)
+                                            ))
         elif self.request.GET['period'] == 'overdue':
             return Task.objects.filter(deadline__lt=datetime.date.today())
         else:
             return None
 
-CategoryFormset = modelformset_factory(Category, fields=('name',),can_delete=True)
-TaskFormset = modelformset_factory(Task, fields=('text','category','deadline',), can_delete=True,)
-                                   #widgets={'deadline': SelectDateWidget})
+CategoryFormset = modelformset_factory(Category, fields=('name',),
+                                       can_delete=True)
+TaskFormset = modelformset_factory(Task,
+                                   fields=('text', 'category', 'deadline',),
+                                   can_delete=True,)
 
 
 class Editor(TemplateView):
-
     template_name = 'to_do_list/category_edit.html'
     formset = None
 
@@ -58,10 +57,10 @@ class Editor(TemplateView):
             self.formset = CategoryFormset()
         elif args[0] == 'task':
             self.formset = TaskFormset()
-        return super(Editor,self).get(request,*args,**kwargs)
+        return super(Editor, self).get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(Editor,self).get_context_data(**kwargs)
+        context = super(Editor, self).get_context_data(**kwargs)
         context['formset'] = self.formset
         if self.args[0] == 'category':
             context['title'] = 'categories'
@@ -69,10 +68,9 @@ class Editor(TemplateView):
         elif self.args[0] == 'task':
             context['title'] = 'tasks'
             context['addr'] = 'task'
-
         return context
 
-    def post(self,request,*args,**kwargs):
+    def post(self, request, *args, **kwargs):
         if args[0] == 'category':
             self.formset = CategoryFormset(request.POST)
         elif args[0] == 'task':
