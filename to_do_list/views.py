@@ -1,7 +1,7 @@
 import datetime
 from django.db import models
 from django.http import HttpResponseRedirect
-from django.forms import modelformset_factory
+from django.forms import modelformset_factory,DateInput
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
 from to_do_list.models import Category,Task
@@ -45,9 +45,11 @@ CategoryFormset = modelformset_factory(Category, fields=('name',),
                                        can_delete=True)
 TaskFormset = modelformset_factory(Task,
                                    fields=('text', 'category', 'deadline',),
-                                   can_delete=True,)
-
-
+                                   can_delete=True,
+                                   widgets={
+                                       'deadline':DateInput(attrs={'class':'datepicker'})
+                                   }
+                                   )
 class Editor(TemplateView):
     template_name = 'to_do_list/category_edit.html'
     formset = None

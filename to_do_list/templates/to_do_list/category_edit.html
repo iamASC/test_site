@@ -34,4 +34,11 @@
         {% endfor %}
         <input type="submit" value="Save" />
     </form>
+    <script>
+        $('.datepicker').datepicker({
+            format: 'yyyy-mm-dd',
+            startDate: '-3d',
+            language: 'ru'
+      });
+    </script>
     {% endblock %}
