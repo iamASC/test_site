@@ -1,38 +1,69 @@
-<!doctype html>
+<!DOCTYPE html>
 {% load staticfiles %}
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html" charset="utf-8">
-        <link type="text/css" href ="{% static 'main.css' %}"rel="stylesheet">
-        <title>{% block title %} {% endblock %} </title>
-    </head>
-    <body>
-    <div id = "header">
-    <h1>TO-DO List</h1>
-    </div>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
 
-    <div id ="left_menu">
-        <ul>
+    <title>{% block title %} {% endblock %}</title>
+
+	<link type="text/css" href ="{% static 'bootstrap.css' %}"rel="stylesheet">
+    <link type="text/css" href ="{% static 'main.css' %}"rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">To-Do-list</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
             <li><a href = "/todolist/">Main</a></li>
             <li><a href = "/todolist/tasklist/?period=today">Today Tasks</a></li>
             <li><a href = "/todolist/tasklist?period=week">Week Tasks</a></li>
             <li><a href = "/todolist/tasklist?period=overdue">Overdue Tasks</a></li>
-        </ul>
-
-        <ul>
             <li><a href = "/todolist/edit/category">Edit category's list</a></li>
             <li><a href = "/todolist/edit/task">Edit task's list</a></li>
-        </ul>
+          </ul>
+        </div>
+      </div>
     </div>
 
-    <div id = "main">
-        {% block main%}
-        {% endblock %}
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar">
+          <ul class="nav nav-sidebar">
+            <li><a href = "/todolist/">Main</a></li>
+            <li><a href = "/todolist/tasklist/?period=today">Today Tasks</a></li>
+            <li><a href = "/todolist/tasklist?period=week">Week Tasks</a></li>
+            <li><a href = "/todolist/tasklist?period=overdue">Overdue Tasks</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href = "/todolist/edit/category">Edit category's list</a></li>
+            <li><a href = "/todolist/edit/task">Edit task's list</a></li>
+          </ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+            {% block main%}
+			{% endblock %}
+        </div>
+      </div>
     </div>
 
-    <div id = "footer">
-        Учебный сайт
-    </div>
 
-    </body>
+    <!--
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="../../dist/js/bootstrap.min.js"></script>
+    <script src="../../assets/js/docs.min.js"></script>
+  -->
+  </body>
 </html>

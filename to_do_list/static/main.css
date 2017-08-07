@@ -1,39 +1,71 @@
-body{
-    margin: 0px;
-    padding:0px;
+body {
+  padding-top: 50px;
+}
+.sub-header {
+  padding-bottom: 10px;
+  border-bottom: 1px solid #eee;
+}
+.sidebar {
+  display: none;
+}
+@media (min-width: 768px) {
+  .sidebar {
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #eee;
+  }
 }
 
-#header{
-    text-align:center;
-    border-bottom: 1px #cccccc solid;
+.nav-sidebar {
+  margin-right: -21px; /* 20px padding + 1px border */
+  margin-bottom: 20px;
+  margin-left: -20px;
+}
+.nav-sidebar > li > a {
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.nav-sidebar > .active > a {
+  color: #fff;
+  background-color: #428bca;
 }
 
-#left_menu{
-    float:left;
-    width: 180px;
-    padding:10px;
+.main {
+  padding: 20px;
 }
-#left_menu a{
-    text-decoration-line: unset;
-    color: black;
-    font-size: large;
+@media (min-width: 768px) {
+  .main {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
 }
-
-#main{
-    margin-left: 190px;
-    border-left: 1px #cccccc solid;
-    padding: 10px;
-    min-height: 160px;
+.main .page-header {
+  margin-top: 0;
 }
 
-#footer{
-    border-top:1px #cccccc solid;
-    padding-left: 10px;
-    margin-top: 25px;
+.placeholders {
+  margin-bottom: 30px;
+  text-align: center;
 }
-#main form div{
+.placeholders h4 {
+  margin-bottom: 0;
 }
-#main form div span{
+.placeholder {
+  margin-bottom: 20px;
+}
+.placeholder img {
+  display: inline-block;
+  border-radius: 50%;
+}
+.main form div span{
     display: inline-block;
     width: 100px;
     margin-left: 8px;
@@ -41,12 +73,12 @@ body{
     text-align: center;
     vertical-align: top;
 }
-#main form div span input{
+.main form div span input{
     width: 100px;
 }
-#main form div span select{
+.main form div span select{
     width: 100px;
 }
-#main form div span:nth-last-child(2){
+.main form div span:nth-last-child(2){
     display:none;
 }
