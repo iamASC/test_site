@@ -19,6 +19,7 @@ class TaskList(ListView):
         'today': "Today's Tasks",
         'week': "Week's Tasks",
         'overdue': "Overdue Tasks",
+        'complete': "Completed Tasks"
     }
     context_object_name = 'task_list'
     template_name = 'to_do_list/task_list.html'
@@ -38,6 +39,8 @@ class TaskList(ListView):
                                             ))
         elif self.request.GET['period'] == 'overdue':
             return Task.objects.filter(deadline__lt=datetime.date.today())
+        elif self.request.GET['period'] == 'complete':
+            return Task.objects.filter(is_complete=True)
         else:
             return None
 
