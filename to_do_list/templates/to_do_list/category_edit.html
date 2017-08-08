@@ -40,6 +40,25 @@
             format: 'yyyy-mm-dd',
             startDate: '-3d',
             language: 'ru'
-      });
+        });
+
+        $('input[name$="is_complete"]').click(function () {
+            var is_complete = this.checked;
+            var info = this.parentElement.nextElementSibling.childNodes[0]
+            var id = info.value
+            token = $("input[name = 'csrfmiddlewaretoken']")[0].value
+            $.ajax({
+                url: "/todolist/edit/task/update/",
+                type:'POST',
+                data:{
+                    'pk' : id,
+                    'flag': is_complete,
+                    'csrfmiddlewaretoken':token,
+                },
+                success: function (res) {
+                }
+            });
+        });
+
     </script>
     {% endblock %}

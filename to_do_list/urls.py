@@ -6,5 +6,5 @@ urlpatterns = [
     url(r'^tasklist/$', views.TaskList.as_view(), name='tasklist'),
     url(r'^edit/(category)/$', views.Editor.as_view(), name='category_edit'),
     url(r'^edit/(task)/$', views.Editor.as_view(), name='task_edit'),
-
+    url(r'^edit/task/update/$', views.AjaxUpdater.as_view(), name='task_edit'),
 ]

@@ -1,6 +1,6 @@
 import datetime
 from django.db import models
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect,JsonResponse,HttpResponse
 from django.forms import modelformset_factory,DateInput
 from django.views.generic import ListView
 from django.views.generic.base import TemplateView
@@ -40,6 +40,18 @@ class TaskList(ListView):
             return Task.objects.filter(deadline__lt=datetime.date.today())
         else:
             return None
+
+class AjaxUpdater(TemplateView):
+    def post(self, request, *args, **kwargs):
+        bool_dict={
+            'true': True,
+            'false': False,
+        }
+        key = request.POST['pk']
+        new_val = bool_dict[request.POST['flag']]
+        Task.objects.filter(id=key).update(is_complete=new_val)
+        return HttpResponse('OK')
+
 
 CategoryFormset = modelformset_factory(Category, fields=('name',),
                                        can_delete=True)
